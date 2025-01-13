@@ -1,4 +1,4 @@
-import React from "../lib/React";
+import react from "./lib/react";
 
 function App() {
   return (
