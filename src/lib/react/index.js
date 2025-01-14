@@ -1,6 +1,6 @@
 import createElement from "./createElement";
 
-const React = {
+const react = {
   createElement,
 };
-export default React;
+export default react;

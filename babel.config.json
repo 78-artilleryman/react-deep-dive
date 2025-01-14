@@ -3,7 +3,7 @@
     "@babel/preset-env",
     [
       "@babel/preset-react",
-      { "runtime": "automatic", "importSource": "custom-jsx-library" }
+      { "runtime": "automatic", "importSource": "react.createElement" }
     ]
   ]
 }

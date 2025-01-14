@@ -1,18 +1,15 @@
+import Footer from "./components/Footer";
+import Header from "./components/header";
+import Main from "./components/Main";
 import react from "./lib/react";
 
 function App() {
   return (
     <div id="app">
-      <header>
-        <h1>Hello world</h1>
-      </header>
-      <body>
-        <p>test</p>
-        <p>윤병현</p>
-      </body>
-      <footer>
-        <p>bottom</p>
-      </footer>
+      <Header />
+      <Main />
+      <Footer />
+      <div>test</div>
     </div>
   );
 }
