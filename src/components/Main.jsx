@@ -1,5 +1,3 @@
-import react from "../lib/react";
-
 function Main() {
   return (
     <main id="main">

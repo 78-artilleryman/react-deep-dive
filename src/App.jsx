@@ -1,12 +1,11 @@
 import Footer from "./components/Footer";
 import Header from "./components/header";
 import Main from "./components/Main";
-import react from "./lib/react";
 
 function App() {
   return (
     <div id="app">
-      <Header />
+      <Header test="123" />
       <Main />
       <Footer />
       <div>test</div>

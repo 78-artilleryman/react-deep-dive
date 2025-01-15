@@ -1,4 +1,3 @@
-import react from "../lib/react";
 function Header() {
   return (
     <header name="header">

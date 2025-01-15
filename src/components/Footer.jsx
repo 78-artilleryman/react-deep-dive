@@ -1,4 +1,3 @@
-import react from "../lib/react";
 function Footer() {
   return (
     <footer name="footer">
