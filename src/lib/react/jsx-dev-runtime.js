@@ -2,10 +2,7 @@ const isFunctionComponent = (type) => {
   return typeof type === "function";
 };
 
-export function jsxDEV(type, props, ...children) {
-  console.log(children);
-  console.log(props);
-
+export function jsxDEV(type, props) {
   if (isFunctionComponent(type)) {
     return {
       type: type,
