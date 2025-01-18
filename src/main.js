@@ -1,5 +1,6 @@
 import App from "./App";
+import { customRender } from "./lib/react/render";
 
 const appElement = App();
-
-console.log(JSON.stringify(appElement, null, 2));
+const dom = customRender(appElement);
+document.body.appendChild(dom);
