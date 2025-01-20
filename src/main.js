@@ -1,6 +1,6 @@
 import App from "./App";
-import { customRender } from "./lib/react/render";
+import { normalizeVNode } from "./lib/react/render";
 
 const appElement = App();
-const dom = customRender(appElement);
-document.body.appendChild(dom);
+const rootElement = document.getElementById("app");
+normalizeVNode(appElement, rootElement);

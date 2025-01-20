@@ -1,4 +1,10 @@
-export function customRender(vnode) {
+export function normalizeVNode(vnode, container) {
+  const dom = renderVNode(vnode);
+  container.innerHTML = ""; // 기존 DOM 초기화
+  container.appendChild(dom); // 새로운 DOM 추가
+}
+
+export function renderVNode(vnode) {
   // vnode가 null이거나 undefined이면 null 반환
   if (!vnode) return null;
 
@@ -7,7 +13,7 @@ export function customRender(vnode) {
   if (typeof type === "function") {
     // type이 함수일 경우, 해당 함수를 호출하여 결과를 vnode로 생성
     const componentVNode = type(props);
-    return customRender(componentVNode); // 재귀적으로 처리
+    return renderVNode(componentVNode); // 재귀적으로 처리
   }
 
   // type이 문자열인 경우, DOM 요소 생성
@@ -20,15 +26,14 @@ export function customRender(vnode) {
         if (key === "children") {
           if (Array.isArray(value)) {
             value.forEach((child) => {
-              console.log(child);
-              const childElement = customRender(child);
+              const childElement = renderVNode(child);
               if (childElement) element.appendChild(childElement);
             });
           } else {
             if (typeof value === "string" || typeof value === "number") {
               element.textContent = value;
             } else {
-              const childElement = customRender(value);
+              const childElement = renderVNode(value);
               if (childElement) element.appendChild(childElement);
             }
           }
@@ -38,7 +43,6 @@ export function customRender(vnode) {
         }
       }
     }
-    console.log(element);
     return element;
   }
   return null;
