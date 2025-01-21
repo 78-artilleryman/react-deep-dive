@@ -10,7 +10,9 @@ function TodoList() {
   };
 
   const pushTodo = () => {
-    setTodoList(inputValue);
+    const newTodo = { id: Date.now(), text: inputValue };
+    setTodoList((prev) => [...prev, newTodo]);
+    setInputValue("");
   };
 
   return (
@@ -23,8 +25,7 @@ function TodoList() {
         </button>
       </div>
       <ul>
-        {todoList &&
-          todoList.map((todo, index) => <li key={index}>{todo.value}</li>)}
+        {todoList && todoList.map((todo) => <li key={todo.id}>{todo.text}</li>)}
       </ul>
     </main>
   );

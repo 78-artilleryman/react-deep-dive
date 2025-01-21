@@ -33,7 +33,15 @@ export function useState(initialValue) {
 
   // 상태 업데이트 함수
   function setState(newValue) {
-    state[currentIndex] = newValue;
+    const newStateValue =
+      typeof newValue === "function"
+        ? newValue(state[currentIndex]) // 콜백 함수 호출
+        : newValue;
+
+    //값이 똑같은 경우
+    if (state[currentIndex] === newStateValue) return;
+
+    state[currentIndex] = newStateValue;
     //렌더 함수 실행
     rerender();
   }
