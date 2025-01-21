@@ -10,6 +10,14 @@ export const createRoot = (component, container) => {
   rootComponent = component;
 };
 
+function debounceFrame(callback) {
+  let nextFrameCallback = -1;
+  return () => {
+    cancelAnimationFrame(nextFrameCallback);
+    nextFrameCallback = requestAnimationFrame(callback);
+  };
+}
+
 export const rerender = () => {
   // 초기 렌더 없이 jsx를 사용할 경우의 에러처리
   if (!rootElement || !rootComponent)
@@ -43,7 +51,7 @@ export function useState(initialValue) {
 
     state[currentIndex] = newStateValue;
     //렌더 함수 실행
-    rerender();
+    debounceFrame(rerender)();
   }
 
   stateIndex++; // 다음 훅 호출을 위한 인덱스 증가
