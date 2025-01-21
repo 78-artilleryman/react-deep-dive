@@ -15,6 +15,10 @@ function TodoList() {
     setInputValue("");
   };
 
+  const deleteTodo = (todoId) => {
+    setTodoList(todoList.filter((todo) => todo.id !== todoId));
+  };
+
   return (
     <main>
       <h1>Todo List</h1>
@@ -25,7 +29,15 @@ function TodoList() {
         </button>
       </div>
       <ul>
-        {todoList && todoList.map((todo) => <li key={todo.id}>{todo.text}</li>)}
+        {todoList &&
+          todoList.map((todo) => (
+            <div style={{ display: "flex" }}>
+              <li key={todo.id}>{todo.text}</li>
+              <button type="button" onClick={() => deleteTodo(todo.id)}>
+                삭제
+              </button>
+            </div>
+          ))}
       </ul>
     </main>
   );
