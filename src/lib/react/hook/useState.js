@@ -5,13 +5,19 @@ let stateIndex = 0; // 현재 훅 호출 인덱스
 let rootElement = null;
 let rootComponent = null;
 
+export const createRoot = (component, container) => {
+  rootElement = container;
+  rootComponent = component;
+};
+
 export const rerender = () => {
   // 초기 렌더 없이 jsx를 사용할 경우의 에러처리
-  if (rootElement || rootComponent)
+  if (!rootElement || !rootComponent)
     throw new Error("Root element or component not initialized");
-  rootElement.innerHTML = "";
+
   stateIndex = 0;
-  normalizeVNode(rootComponent(), stateIndex);
+  rootElement.innerHTML = ""; // 기존 DOM 초기화
+  normalizeVNode(rootComponent(), rootElement);
 };
 
 export function useState(initialValue) {

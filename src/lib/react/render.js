@@ -1,6 +1,5 @@
 export function normalizeVNode(vnode, container) {
   const dom = renderVNode(vnode);
-  container.innerHTML = ""; // 기존 DOM 초기화
   container.appendChild(dom); // 새로운 DOM 추가
 }
 
@@ -37,6 +36,10 @@ export function renderVNode(vnode) {
               if (childElement) element.appendChild(childElement);
             }
           }
+        } else if (key.startsWith("on") && typeof value === "function") {
+          // 이벤트 핸들러 처리
+          const eventType = key.slice(2).toLowerCase(); // "onClick" -> "click"
+          element.addEventListener(eventType, value);
         } else {
           // 일반 속성 설정
           element[key] = value;
