@@ -1,4 +1,4 @@
-import { normalizeVNode } from "../render";
+import { rerender } from "../render";
 
 let state = []; // 여러 상태 저장소
 let stateIndex = 0; // 현재 훅 호출 인덱스
@@ -18,21 +18,10 @@ function debounceFrame(callback) {
   };
 }
 
-export const rerender = () => {
-  // 초기 렌더 없이 jsx를 사용할 경우의 에러처리
-  if (!rootElement || !rootComponent)
-    throw new Error("Root element or component not initialized");
-
-  stateIndex = 0;
-  rootElement.innerHTML = ""; // 기존 DOM 초기화
-  normalizeVNode(rootComponent(), rootElement);
-};
-
 export function useState(initialValue) {
   const currentIndex = stateIndex;
 
   // 상태 초기화
-
   if (state[currentIndex] === undefined) {
     state[currentIndex] = initialValue;
   } else {
