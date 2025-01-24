@@ -15,30 +15,24 @@ export function render(vnode, container) {
     const element = document.createElement(type);
 
     // props가 있는 경우 속성을 설정
-    if (props) {
-      for (const [key, value] of Object.entries(props)) {
-        if (key === "children") {
-          if (Array.isArray(value)) {
-            value.forEach((child) => {
-              render(child, element); // 자식 노드를 재귀적으로 처리
-            });
-          } else {
-            if (typeof value === "string" || typeof value === "number") {
-              element.textContent = value;
-            } else {
-              render(value, element); // 단일 자식 노드 처리
-            }
+    Object.entries(props).forEach(([key, value]) => {
+      if (key === "children") {
+        const children = Array.isArray(value) ? value : [value]; // 배열이 아니면 배열로 변환
+        children.forEach((child) => {
+          if (typeof child === "string" || typeof child === "number") {
+            element.appendChild(document.createTextNode(child)); // 텍스트 노드 추가
+          } else if (child) {
+            render(child, element); // null이나 undefined가 아닌 경우 렌더링
           }
-        } else if (key.startsWith("on") && typeof value === "function") {
-          // 이벤트 핸들러 처리
-          const eventType = key.slice(2).toLowerCase(); // "onClick" -> "click"
-          element.addEventListener(eventType, value);
-        } else {
-          // 일반 속성 설정
-          element[key] = value;
-        }
+        });
       }
-    }
+
+      if (key.startsWith("on") && typeof value === "function") {
+        // 이벤트 핸들러 처리
+        const eventType = key.slice(2).toLowerCase(); // "onClick" -> "click"
+        element.addEventListener(eventType, value);
+      }
+    });
 
     // container가 존재하면 DOM 추가
     if (container) container.appendChild(element);
