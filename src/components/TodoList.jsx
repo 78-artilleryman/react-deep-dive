@@ -16,7 +16,7 @@ function TodoList() {
   };
 
   const deleteTodo = (todoId) => {
-    setTodoList(todoList.filter((todo) => todo.id !== todoId));
+    setTodoList((prevTodo) => prevTodo.filter((todo) => todo.id !== todoId));
   };
 
   return (
