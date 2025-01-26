@@ -1,8 +1,8 @@
-export function render(vnode, container) {
+export function render(vDomElement, container) {
   // vnode가 null이거나 undefined이면 처리 중단
-  if (!vnode) return;
+  if (!vDomElement) return;
 
-  const { type, props } = vnode;
+  const { type, props } = vDomElement;
 
   if (typeof type === "function") {
     // type이 함수일 경우, 해당 함수를 호출하여 결과를 vnode로 생성
