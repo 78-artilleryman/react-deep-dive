@@ -5,5 +5,5 @@ export function render(vDomElement) {
   const rootContainer = document.getElementById("app");
 
   createRoot(vDomElement, rootContainer);
-  renderElement(vDomElement, rootContainer);
+  renderElement(vDomElement(), rootContainer);
 }

@@ -1,4 +1,3 @@
-import { createElement } from "../render/createElement";
 import { renderElement } from "../render/rederElement";
 
 let state = []; // 상태 저장소
@@ -10,16 +9,15 @@ let updateQueue = new Set(); // 중복 방지
 let isUpdating = false;
 
 export const createRoot = (component, container) => {
-  rootElement = container;
   rootComponent = component;
+  rootElement = container;
 };
 
 export const rerender = () => {
   if (!rootElement || !rootComponent)
     throw new Error("Root element or component not initialized");
-
   stateIndex = 0;
-  renderElement(rootComponent, rootElement);
+  renderElement(rootComponent(), rootElement);
 };
 
 export function useState(initialValue) {
@@ -30,9 +28,9 @@ export function useState(initialValue) {
   }
 
   const setState = (newValue) => {
-    const prevState = state[currentIndex];
+    let prevState = state[currentIndex];
 
-    // 🔥 콜백 함수가 들어온 경우, 실행해서 최신 상태 값 얻기
+    // 콜백 함수가 들어온 경우, prevState를 평가하여 최신 값 얻기
     const newStateValue =
       typeof newValue === "function" ? newValue(prevState) : newValue;
 
@@ -54,7 +52,6 @@ export function useState(initialValue) {
       });
     }
   };
-
   stateIndex++;
   return [state[currentIndex], setState];
 }

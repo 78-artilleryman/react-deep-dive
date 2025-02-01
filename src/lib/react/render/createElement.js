@@ -32,6 +32,22 @@ export function createElement(vDomElement, container) {
         const eventType = key.slice(2).toLowerCase(); // "onClick" -> "click"
         element.addEventListener(eventType, value);
       }
+
+      if (key === "style" && typeof value === "object") {
+        Object.entries(value).forEach(([styleKey, styleValue]) => {
+          element.style[styleKey] = styleValue;
+        });
+      }
+
+      // input 속성 + 기타 속성
+      if (
+        key === "checked" ||
+        key === "disabled" ||
+        key === "value" ||
+        key !== "children"
+      ) {
+        element[key] = value;
+      }
     });
 
     // container가 존재하면 DOM 추가
