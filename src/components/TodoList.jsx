@@ -5,13 +5,17 @@ function TodoList() {
   const [todoList, setTodoList] = useState([]);
 
   const changeInput = (event) => {
-    const value = event.target.value.trim();
-    setInputValue(value);
+    const value = event.target.value;
+    if (value.trim() !== inputValue) {
+      setInputValue(value.trim());
+    }
   };
 
   const pushTodo = () => {
-    const newTodo = { id: Date.now(), text: inputValue };
-    setTodoList((prev) => [...prev, newTodo]);
+    setTodoList((prev) => {
+      const newTodos = [...prev, { id: Date.now(), text: inputValue }];
+      return newTodos;
+    });
     setInputValue("");
   };
 
@@ -24,7 +28,7 @@ function TodoList() {
       <h1>Todo List</h1>
       <div style={{ display: "flex" }}>
         <input type="text" value={inputValue} onChange={changeInput} />
-        <button type="button" onClick={pushTodo}>
+        <button type="button" onClick={() => pushTodo()}>
           추가
         </button>
       </div>

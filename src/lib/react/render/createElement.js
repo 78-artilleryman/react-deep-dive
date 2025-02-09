@@ -1,13 +1,13 @@
-export function render(vnode, container) {
+export function createElement(vDomElement, container) {
   // vnode가 null이거나 undefined이면 처리 중단
-  if (!vnode) return;
+  if (!vDomElement) return;
 
-  const { type, props } = vnode;
+  const { type, props } = vDomElement;
 
   if (typeof type === "function") {
     // type이 함수일 경우, 해당 함수를 호출하여 결과를 vnode로 생성
     const componentVNode = type(props);
-    return render(componentVNode, container); // 재귀적으로 처리
+    return createElement(componentVNode, container); // 재귀적으로 처리
   }
 
   if (typeof type === "string") {
@@ -22,7 +22,7 @@ export function render(vnode, container) {
           if (typeof child === "string" || typeof child === "number") {
             element.appendChild(document.createTextNode(child)); // 텍스트 노드 추가
           } else if (child) {
-            render(child, element); // null이나 undefined가 아닌 경우 렌더링
+            createElement(child, element); // null이나 undefined가 아닌 경우 렌더링
           }
         });
       }
@@ -32,6 +32,22 @@ export function render(vnode, container) {
         const eventType = key.slice(2).toLowerCase(); // "onClick" -> "click"
         element.addEventListener(eventType, value);
       }
+
+      if (key === "style" && typeof value === "object") {
+        Object.entries(value).forEach(([styleKey, styleValue]) => {
+          element.style[styleKey] = styleValue;
+        });
+      }
+
+      // input 속성 + 기타 속성
+      if (
+        key === "checked" ||
+        key === "disabled" ||
+        key === "value" ||
+        key !== "children"
+      ) {
+        element[key] = value;
+      }
     });
 
     // container가 존재하면 DOM 추가
@@ -40,13 +56,3 @@ export function render(vnode, container) {
     return element;
   }
 }
-
-export const rerender = () => {
-  // 초기 렌더 없이 jsx를 사용할 경우의 에러처리
-  if (!rootElement || !rootComponent)
-    throw new Error("Root element or component not initialized");
-
-  stateIndex = 0;
-  rootElement.innerHTML = ""; // 기존 DOM 초기화
-  render(rootComponent(), rootElement);
-};
